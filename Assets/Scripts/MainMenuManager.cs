@@ -18,6 +18,7 @@ public class MainMenuManager : MonoBehaviour
     {
         // Load first level or scene
         Debug.Log("Starting Game");
+        SceneManager.LoadScene("GameScene");
         menuPanel.SetActive(false);
         loadingPanel.SetActive(true);
         menuPanel.SetActive(false);

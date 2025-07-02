@@ -28,7 +28,6 @@ public class MCQLevelManager : MonoBehaviour
     public TextMeshProUGUI questionText;
     public TextMeshProUGUI aiAnswerText;
     public TextMeshProUGUI feedbackText;
-    public Button nextButton;
     public TextMeshProUGUI questionCounter;
 
     [Header("Options Container")]
@@ -41,13 +40,15 @@ public class MCQLevelManager : MonoBehaviour
     [Range(0f, 1f)]
     public float aiCorrectProbability = 0.8f;
 
+    [Header("Auto Progression")]
+    public float autoAdvanceDelay = 3.0f;
+
     private List<MCQQuestion> questions = new List<MCQQuestion>();
     private int currentIndex = 0;
     private string playerChoice;
 
     void Start()
     {
-        nextButton.onClick.AddListener(OnNextQuestion);
         StartCoroutine(LoadQuestionsFromStreamingAssets());
     }
 
@@ -114,7 +115,6 @@ public class MCQLevelManager : MonoBehaviour
         questionCounter.text = $"Q {currentIndex + 1} / {questions.Count}";
 
         ClearOptions();
-        nextButton.interactable = false;
 
         foreach (var option in q.options)
         {
@@ -181,7 +181,13 @@ public class MCQLevelManager : MonoBehaviour
             $"{(playerCorrect ? "✅ You: Correct" : "❌ You: Wrong")}\n" +
             $"{(aiCorrect ? "🤖✅ AI: Correct" : "🤖❌ AI: Wrong")}";
 
-        nextButton.interactable = true;
+        StartCoroutine(AutoAdvanceToNextQuestion());
+    }
+
+    IEnumerator AutoAdvanceToNextQuestion()
+    {
+        yield return new WaitForSeconds(autoAdvanceDelay);
+        OnNextQuestion();
     }
 
     public void OnNextQuestion()
