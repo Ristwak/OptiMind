@@ -2,7 +2,7 @@ using UnityEngine;
 using TMPro;
 
 /// <summary>
-/// Populates the About panel with detailed game info.
+/// Populates the About panel with detailed game info for OptiMind.
 /// </summary>
 public class AboutGameManager : MonoBehaviour
 {
@@ -19,39 +19,37 @@ public class AboutGameManager : MonoBehaviour
         }
 
         aboutText.text =
-            "<b>About Logica</b>\n" +
-            "Logica is a futuristic logic battle game where two AI bots face off — one powered by hardcoded rules (symbolic logic), the other by learning algorithms (machine learning).\n" +
-            "As a human player, you jump into this arena to challenge both bots, testing your reasoning skills while witnessing how AI thinks, learns, and sometimes even makes mistakes.\n\n" +
+            "<b>About OptiMind</b>\n" +
+            "OptiMind is an interactive decision-making simulator where you tackle complex questions alongside a simulated AI model. Both you and the AI make choices — but only one of you might be right.\n\n" +
 
             "<b>What’s the Game About?</b>\n" +
-            "Set inside a virtual lab, Logica explores the oldest question in Artificial Intelligence:\n\n" +
-            "<i>Can machines think?</i>\n\n" +
-            "You take on logic challenges that simulate how early AI (like the Logic Theorist) solved problems using fixed rules, while also observing how modern learning-based AI approaches the same problems differently.\n\n" +
+            "Each level presents you with challenging multi-option questions that reflect real-world logic, ambiguity, and abstract reasoning.\n" +
+            "Your goal? Pick the best option. Meanwhile, the AI 'thinks' too — based on probability, not certainty.\n\n" +
 
-            "<b>Two Bots, Two Minds</b>\n" +
-            "<b>RuleBot</b> – Thinks like classic AI: deductive, symbolic, precise.\n" +
-            "<b>LearnBot</b> – Thinks like a modern ML system: pattern-based, probabilistic, adaptive.\n\n" +
-            "Sometimes they agree.\n" +
-            "Sometimes they contradict each other.\n" +
-            "Sometimes… you’ll be smarter than both.\n\n" +
+            "<b>AI That Thinks (Sort of)</b>\n" +
+            "The AI doesn’t always get it right. It calculates, weighs options, and selects what it 'believes' is most probable.\n" +
+            "You’ll see how machine learning deals with uncertainty — and how it differs from human logic.\n\n" +
+
+            "<b>Compare Minds</b>\n" +
+            "• Your answer vs AI’s choice\n" +
+            "• Observe when the AI guesses wrong — and when it gets it right\n" +
+            "• Analyze patterns in your own reasoning vs an adaptive system\n\n" +
 
             "<b>What You'll Learn</b>\n" +
-            "• How symbolic logic forms the backbone of early AI\n" +
-            "• Where rule-based AI excels — and fails\n" +
-            "• How machine learning approaches uncertainty\n" +
-            "• Why understanding both is key to building modern intelligent systems\n\n" +
+            "• Foundations of probabilistic AI reasoning\n" +
+            "• How machines evaluate multiple options\n" +
+            "• Decision-making under uncertainty\n" +
+            "• The contrast between intuition and statistical choice\n\n" +
 
-            "<b>Built for PG Students in AI/ML</b>\n" +
-            "Logica isn’t just a game. It’s a lab disguised as fun.\n" +
-            "Designed for postgraduate students, it strengthens your grasp of:\n" +
-            "• Deductive logic\n" +
-            "• Symbolic reasoning\n" +
-            "• Inference patterns\n" +
-            "• AI vs ML paradigms\n\n" +
+            "<b>Designed for AI/ML Learners</b>\n" +
+            "OptiMind is ideal for AI/ML students and curious minds who want to:\n" +
+            "• Understand how algorithms 'choose'\n" +
+            "• Develop sharper logical intuition\n" +
+            "• Recognize cognitive biases — human and machine\n\n" +
 
-            "<b>Ready to Play?</b>\n" +
-            "Step into the arena. Outsmart the bots.\n" +
-            "Learn how AI learns — and how it used to think.\n" +
-            "Welcome to Logica.";
+            "<b>Ready to Compete?</b>\n" +
+            "Dive into a mind duel. Outthink the AI.\n" +
+            "Decode its patterns. Sharpen yours.\n" +
+            "Welcome to OptiMind.";
     }
 }
