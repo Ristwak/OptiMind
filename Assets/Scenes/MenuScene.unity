@@ -360,6 +360,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: LoadingPanel
       objectReference: {fileID: 0}
+    - target: {fileID: 1815449899042301406, guid: 9b8544f55e7c15a4f9c65c9f7b5dc7ff, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3595040951699239380, guid: 9b8544f55e7c15a4f9c65c9f7b5dc7ff, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3595040951699239380, guid: 9b8544f55e7c15a4f9c65c9f7b5dc7ff, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3595040951699239380, guid: 9b8544f55e7c15a4f9c65c9f7b5dc7ff, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3595040951699239380, guid: 9b8544f55e7c15a4f9c65c9f7b5dc7ff, type: 3}
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8911442181406763234, guid: 9b8544f55e7c15a4f9c65c9f7b5dc7ff, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1952,7 +1972,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1854878285
 Transform:
   m_ObjectHideFlags: 0
@@ -1977,7 +1997,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1854878284}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9359c984b5c8fb04b89c9e18d37283dd, type: 3}
+  m_Script: {fileID: 11500000, guid: 6f18eae7895c1fb49b48544b33237ffd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1873614013

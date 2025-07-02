@@ -11,7 +11,7 @@ public class MCQQuestion
     public string id;
     public string prompt;
     public List<string> options;
-    public string correct;          // aiLogic removed
+    public string correct;
 }
 
 [System.Serializable]
@@ -38,37 +38,83 @@ public class MCQLevelManager : MonoBehaviour
     [Header("AI Settings")]
     public float aiMinThinkTime = 1.0f;
     public float aiMaxThinkTime = 3.0f;
-    [Range(0f,1f)]
+    [Range(0f, 1f)]
     public float aiCorrectProbability = 0.8f;
 
-    private List<MCQQuestion> questions;
+    private List<MCQQuestion> questions = new List<MCQQuestion>();
     private int currentIndex = 0;
     private string playerChoice;
 
     void Start()
     {
-        LoadQuestions();
-        DisplayQuestion();
         nextButton.onClick.AddListener(OnNextQuestion);
+        StartCoroutine(LoadQuestionsFromStreamingAssets());
     }
 
-    void LoadQuestions()
+    IEnumerator LoadQuestionsFromStreamingAssets()
     {
-        string path = Path.Combine(Application.streamingAssetsPath, "Level01_MCQ.json");
-        string json = File.ReadAllText(path);
-        questions = JsonUtility.FromJson<MCQLevelData>(json).questions;
+        string fileName = "Level01_MCQ.json";
+        string filePath = Path.Combine(Application.streamingAssetsPath, fileName);
+        string json = "";
+
+#if UNITY_ANDROID
+        using (UnityEngine.Networking.UnityWebRequest request = UnityEngine.Networking.UnityWebRequest.Get(filePath))
+        {
+            yield return request.SendWebRequest();
+
+            if (request.result != UnityEngine.Networking.UnityWebRequest.Result.Success)
+            {
+                Debug.LogError("Failed to load JSON on Android: " + request.error);
+                yield break;
+            }
+
+            json = request.downloadHandler.text;
+        }
+#else
+        if (File.Exists(filePath))
+        {
+            json = File.ReadAllText(filePath);
+        }
+        else
+        {
+            Debug.LogError("File not found at: " + filePath);
+            yield break;
+        }
+#endif
+
+        MCQLevelData data = JsonUtility.FromJson<MCQLevelData>(json);
+        if (data == null || data.questions == null || data.questions.Count == 0)
+        {
+            Debug.LogError("Invalid or empty JSON data.");
+            yield break;
+        }
+
+        questions = new List<MCQQuestion>(data.questions);
+
+        // Shuffle questions
+        for (int i = 0; i < questions.Count; i++)
+        {
+            int j = Random.Range(i, questions.Count);
+            var tmp = questions[i];
+            questions[i] = questions[j];
+            questions[j] = tmp;
+        }
+
+        DisplayQuestion();
     }
 
     void DisplayQuestion()
     {
+        if (currentIndex >= questions.Count) return;
+
         var q = questions[currentIndex];
-        questionText.text       = q.prompt;
-        aiAnswerText.text       = "";
-        feedbackText.text       = "";            // Clear previous feedback
-        questionCounter.text    = $"Q {currentIndex + 1} / {questions.Count}";
+        questionText.text = q.prompt;
+        aiAnswerText.text = "";
+        feedbackText.text = "";
+        questionCounter.text = $"Q {currentIndex + 1} / {questions.Count}";
 
         ClearOptions();
-        nextButton.interactable = false;          // Disable Next until feedback shown
+        nextButton.interactable = false;
 
         foreach (var option in q.options)
         {
@@ -78,6 +124,7 @@ public class MCQLevelManager : MonoBehaviour
 
             label.text = option;
             button.interactable = true;
+
             string chosen = option;
             button.onClick.AddListener(() => OnOptionSelected(chosen));
         }
@@ -86,60 +133,54 @@ public class MCQLevelManager : MonoBehaviour
     void ClearOptions()
     {
         foreach (Transform child in optionsContainer)
+        {
             Destroy(child.gameObject);
+        }
     }
 
     void OnOptionSelected(string chosen)
     {
         playerChoice = chosen;
-        // Disable all option buttons
+
         foreach (Transform child in optionsContainer)
         {
             var btn = child.GetComponent<Button>();
             if (btn != null) btn.interactable = false;
         }
 
-        // Show AI is thinking
         aiAnswerText.text = "🧠 AI is thinking...";
-
-        // Start AI response
         StartCoroutine(AIResponseCoroutine());
     }
 
     IEnumerator AIResponseCoroutine()
     {
-        // Random thinking time
         float thinkTime = Random.Range(aiMinThinkTime, aiMaxThinkTime);
         yield return new WaitForSeconds(thinkTime);
 
         var q = questions[currentIndex];
         string aiChoice;
 
-        // Determine AI answer with given probability
         if (Random.value <= aiCorrectProbability)
         {
             aiChoice = q.correct;
         }
         else
         {
-            // pick a random wrong option
             List<string> wrongs = new List<string>(q.options);
             wrongs.Remove(q.correct);
-            aiChoice = wrongs[Random.Range(0, wrongs.Count)];
+
+            aiChoice = wrongs.Count > 0 ? wrongs[Random.Range(0, wrongs.Count)] : q.correct;
         }
 
-        // Display AI answer
         aiAnswerText.text = $"🧠 AI says: {aiChoice}";
 
-        // Provide combined feedback
         bool playerCorrect = (playerChoice == q.correct);
-        bool aiCorrect     = (aiChoice    == q.correct);
+        bool aiCorrect = (aiChoice == q.correct);
 
         feedbackText.text =
             $"{(playerCorrect ? "✅ You: Correct" : "❌ You: Wrong")}\n" +
-            $"{(aiCorrect     ? "🤖✅ AI: Correct" : "🤖❌ AI: Wrong")}";
+            $"{(aiCorrect ? "🤖✅ AI: Correct" : "🤖❌ AI: Wrong")}";
 
-        // Enable Next button after feedback
         nextButton.interactable = true;
     }
 
@@ -147,8 +188,12 @@ public class MCQLevelManager : MonoBehaviour
     {
         currentIndex++;
         if (currentIndex >= questions.Count)
+        {
             UnityEngine.SceneManagement.SceneManager.LoadScene("HomeScene");
+        }
         else
+        {
             DisplayQuestion();
+        }
     }
 }
