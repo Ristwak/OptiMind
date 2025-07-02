@@ -11,64 +11,74 @@ public class MCQQuestion
     public string id;
     public string prompt;
     public List<string> options;
-    public string correct;
+    public List<string> correct;
 }
 
-[System.Serializable]
-public class MCQLevelData
+public static class JsonHelper
 {
-    public string title;
-    public string format;
-    public List<MCQQuestion> questions;
+    [System.Serializable]
+    private class Wrapper<T>
+    {
+        public T[] Items;
+    }
+
+    public static T[] FromJson<T>(string json)
+    {
+        string wrapped = "{\"Items\":" + json + "}";
+        Wrapper<T> wrapper = JsonUtility.FromJson<Wrapper<T>>(wrapped);
+        return wrapper.Items;
+    }
 }
 
 public class MCQLevelManager : MonoBehaviour
 {
     [Header("UI Elements")]
     public TextMeshProUGUI questionText;
-    public TextMeshProUGUI aiAnswerText;
     public TextMeshProUGUI feedbackText;
     public TextMeshProUGUI questionCounter;
+    public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI timerText;
+    public Button submitButton;
 
     [Header("Options Container")]
     public GameObject optionButtonPrefab;
     public Transform optionsContainer;
 
-    [Header("AI Settings")]
-    public float aiMinThinkTime = 1.0f;
-    public float aiMaxThinkTime = 3.0f;
-    [Range(0f, 1f)]
-    public float aiCorrectProbability = 0.8f;
-
-    [Header("Auto Progression")]
-    public float autoAdvanceDelay = 3.0f;
+    [Header("Game Settings")]
+    public float timePerQuestion = 10f;
+    public int scorePoints = 1;
 
     private List<MCQQuestion> questions = new List<MCQQuestion>();
     private int currentIndex = 0;
-    private string playerChoice;
+    private List<string> playerChoices = new List<string>();
+    private Dictionary<string, Button> optionButtons = new Dictionary<string, Button>();
+    private Coroutine timerCoroutine;
+    private bool answered;
+    private int score;
 
     void Start()
     {
+        submitButton.onClick.AddListener(OnSubmitAnswer);
+        submitButton.interactable = false;
+        score = 0;
         StartCoroutine(LoadQuestionsFromStreamingAssets());
     }
 
     IEnumerator LoadQuestionsFromStreamingAssets()
     {
-        string fileName = "Level01_MCQ.json";
+        string fileName = "Level01_AI_ML_MSQ_500_4opt.json";
         string filePath = Path.Combine(Application.streamingAssetsPath, fileName);
         string json = "";
 
 #if UNITY_ANDROID
-        using (UnityEngine.Networking.UnityWebRequest request = UnityEngine.Networking.UnityWebRequest.Get(filePath))
+        using (var request = UnityEngine.Networking.UnityWebRequest.Get(filePath))
         {
             yield return request.SendWebRequest();
-
             if (request.result != UnityEngine.Networking.UnityWebRequest.Result.Success)
             {
                 Debug.LogError("Failed to load JSON on Android: " + request.error);
                 yield break;
             }
-
             json = request.downloadHandler.text;
         }
 #else
@@ -83,16 +93,20 @@ public class MCQLevelManager : MonoBehaviour
         }
 #endif
 
-        MCQLevelData data = JsonUtility.FromJson<MCQLevelData>(json);
-        if (data == null || data.questions == null || data.questions.Count == 0)
+        MCQQuestion[] loaded = JsonHelper.FromJson<MCQQuestion>(json);
+        if (loaded == null || loaded.Length == 0)
         {
-            Debug.LogError("Invalid or empty JSON data.");
+            Debug.LogError("No questions found or invalid JSON.");
             yield break;
         }
 
-        questions = new List<MCQQuestion>(data.questions);
+        questions = new List<MCQQuestion>(loaded);
+        ShuffleQuestions();
+        DisplayQuestion();
+    }
 
-        // Shuffle questions
+    void ShuffleQuestions()
+    {
         for (int i = 0; i < questions.Count; i++)
         {
             int j = Random.Range(i, questions.Count);
@@ -100,98 +114,107 @@ public class MCQLevelManager : MonoBehaviour
             questions[i] = questions[j];
             questions[j] = tmp;
         }
-
-        DisplayQuestion();
     }
 
     void DisplayQuestion()
     {
         if (currentIndex >= questions.Count) return;
 
+        answered = false;
+        playerChoices.Clear();
+        optionButtons.Clear();
+        submitButton.interactable = false;
+
+        // Update score and counter
+        scoreText.text = $"Score: {score}";
         var q = questions[currentIndex];
         questionText.text = q.prompt;
-        aiAnswerText.text = "";
-        feedbackText.text = "";
+        feedbackText.text = string.Empty;
         questionCounter.text = $"Q {currentIndex + 1} / {questions.Count}";
+        timerText.text = Mathf.CeilToInt(timePerQuestion).ToString();
 
         ClearOptions();
 
-        foreach (var option in q.options)
+        foreach (var opt in q.options)
         {
             var btnGO = Instantiate(optionButtonPrefab, optionsContainer);
             var label = btnGO.GetComponentInChildren<TextMeshProUGUI>();
             var button = btnGO.GetComponent<Button>();
 
-            label.text = option;
+            label.text = opt;
             button.interactable = true;
-
-            string chosen = option;
-            button.onClick.AddListener(() => OnOptionSelected(chosen));
-        }
-    }
-
-    void ClearOptions()
-    {
-        foreach (Transform child in optionsContainer)
-        {
-            Destroy(child.gameObject);
-        }
-    }
-
-    void OnOptionSelected(string chosen)
-    {
-        playerChoice = chosen;
-
-        foreach (Transform child in optionsContainer)
-        {
-            var btn = child.GetComponent<Button>();
-            if (btn != null) btn.interactable = false;
+            button.onClick.AddListener(() => OnOptionToggled(opt, button));
+            optionButtons[opt] = button;
         }
 
-        aiAnswerText.text = "🧠 AI is thinking...";
-        StartCoroutine(AIResponseCoroutine());
+        // Start question timer
+        if (timerCoroutine != null) StopCoroutine(timerCoroutine);
+        timerCoroutine = StartCoroutine(QuestionTimer());
     }
 
-    IEnumerator AIResponseCoroutine()
+    IEnumerator QuestionTimer()
     {
-        float thinkTime = Random.Range(aiMinThinkTime, aiMaxThinkTime);
-        yield return new WaitForSeconds(thinkTime);
-
-        var q = questions[currentIndex];
-        string aiChoice;
-
-        if (Random.value <= aiCorrectProbability)
+        float remaining = timePerQuestion;
+        while (remaining > 0f && !answered)
         {
-            aiChoice = q.correct;
+            remaining -= Time.deltaTime;
+            timerText.text = Mathf.CeilToInt(remaining).ToString();
+            yield return null;
+        }
+        if (!answered) ProcessAnswer();
+    }
+
+    void OnOptionToggled(string option, Button button)
+    {
+        if (playerChoices.Contains(option))
+        {
+            playerChoices.Remove(option);
+            button.image.color = Color.white;
         }
         else
         {
-            List<string> wrongs = new List<string>(q.options);
-            wrongs.Remove(q.correct);
-
-            aiChoice = wrongs.Count > 0 ? wrongs[Random.Range(0, wrongs.Count)] : q.correct;
+            playerChoices.Add(option);
+            button.image.color = Color.green;
         }
-
-        aiAnswerText.text = $"🧠 AI says: {aiChoice}";
-
-        bool playerCorrect = (playerChoice == q.correct);
-        bool aiCorrect = (aiChoice == q.correct);
-
-        feedbackText.text =
-            $"{(playerCorrect ? "✅ You: Correct" : "❌ You: Wrong")}\n" +
-            $"{(aiCorrect ? "🤖✅ AI: Correct" : "🤖❌ AI: Wrong")}";
-
-        StartCoroutine(AutoAdvanceToNextQuestion());
+        submitButton.interactable = playerChoices.Count > 0;
     }
 
-    IEnumerator AutoAdvanceToNextQuestion()
+    void OnSubmitAnswer()
     {
-        yield return new WaitForSeconds(autoAdvanceDelay);
-        OnNextQuestion();
+        if (timerCoroutine != null) StopCoroutine(timerCoroutine);
+        ProcessAnswer();
     }
 
-    public void OnNextQuestion()
+    void ProcessAnswer()
     {
+        answered = true;
+        // Disable further input
+        foreach (var btn in optionButtons.Values)
+            btn.interactable = false;
+        submitButton.interactable = false;
+
+        // Evaluate
+        var correctList = questions[currentIndex].correct;
+        bool isCorrect = AreSelectionsEqual(playerChoices, correctList);
+        if (isCorrect) score += scorePoints;
+
+        feedbackText.text = isCorrect ? "✅ Correct!" : "❌ Wrong.";
+        scoreText.text = $"Score: {score}";
+
+        // Advance after delay
+        StartCoroutine(AutoAdvance());
+    }
+
+    bool AreSelectionsEqual(List<string> a, List<string> b)
+    {
+        if (a.Count != b.Count) return false;
+        foreach (var val in a) if (!b.Contains(val)) return false;
+        return true;
+    }
+
+    IEnumerator AutoAdvance()
+    {
+        yield return new WaitForSeconds(2f);
         currentIndex++;
         if (currentIndex >= questions.Count)
         {
@@ -201,5 +224,10 @@ public class MCQLevelManager : MonoBehaviour
         {
             DisplayQuestion();
         }
+    }
+
+    void ClearOptions()
+    {
+        foreach (Transform t in optionsContainer) Destroy(t.gameObject);
     }
 }
