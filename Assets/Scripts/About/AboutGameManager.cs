@@ -2,7 +2,7 @@ using UnityEngine;
 using TMPro;
 
 /// <summary>
-/// Populates the About panel with detailed game info for OptiMind.
+/// Populates the About panel with detailed game info for OptiMind (multi-correct logic game).
 /// </summary>
 public class AboutGameManager : MonoBehaviour
 {
@@ -20,36 +20,30 @@ public class AboutGameManager : MonoBehaviour
 
         aboutText.text =
             "<b>About OptiMind</b>\n" +
-            "OptiMind is an interactive decision-making simulator where you tackle complex questions alongside a simulated AI model. Both you and the AI make choices — but only one of you might be right.\n\n" +
+            "OptiMind is a multi-select reasoning challenge designed to sharpen your conceptual understanding of AI, logic, and machine learning.\n\n" +
 
             "<b>What’s the Game About?</b>\n" +
-            "Each level presents you with challenging multi-option questions that reflect real-world logic, ambiguity, and abstract reasoning.\n" +
-            "Your goal? Pick the best option. Meanwhile, the AI 'thinks' too — based on probability, not certainty.\n\n" +
+            "Each level presents complex, real-world inspired questions with more than one correct answer.\n" +
+            "Your task: analyze, infer, and select all valid answers — not just the obvious one.\n\n" +
 
-            "<b>AI That Thinks (Sort of)</b>\n" +
-            "The AI doesn’t always get it right. It calculates, weighs options, and selects what it 'believes' is most probable.\n" +
-            "You’ll see how machine learning deals with uncertainty — and how it differs from human logic.\n\n" +
-
-            "<b>Compare Minds</b>\n" +
-            "• Your answer vs AI’s choice\n" +
-            "• Observe when the AI guesses wrong — and when it gets it right\n" +
-            "• Analyze patterns in your own reasoning vs an adaptive system\n\n" +
+            "<b>Thinking Beyond A or B</b>\n" +
+            "OptiMind rewards clarity of thought, pattern recognition, and the ability to hold multiple possibilities in mind.\n" +
+            "It simulates the kind of multi-path decision-making required in real AI design and evaluation.\n\n" +
 
             "<b>What You'll Learn</b>\n" +
-            "• Foundations of probabilistic AI reasoning\n" +
-            "• How machines evaluate multiple options\n" +
-            "• Decision-making under uncertainty\n" +
-            "• The contrast between intuition and statistical choice\n\n" +
+            "• How to handle ambiguous and abstract problems\n" +
+            "• Where classical logic meets probabilistic reasoning\n" +
+            "• The challenge of choosing all valid answers — not just the best one\n\n" +
 
             "<b>Designed for AI/ML Learners</b>\n" +
-            "OptiMind is ideal for AI/ML students and curious minds who want to:\n" +
-            "• Understand how algorithms 'choose'\n" +
-            "• Develop sharper logical intuition\n" +
-            "• Recognize cognitive biases — human and machine\n\n" +
+            "Built for students and enthusiasts in AI, ML, and cognitive science, OptiMind helps you:\n" +
+            "• Strengthen logical foundations\n" +
+            "• Apply reasoning across multiple options\n" +
+            "• Spot false positives and eliminate distractors\n\n" +
 
-            "<b>Ready to Compete?</b>\n" +
-            "Dive into a mind duel. Outthink the AI.\n" +
-            "Decode its patterns. Sharpen yours.\n" +
+            "<b>Ready to Think Differently?</b>\n" +
+            "This isn’t guesswork — it’s insight under pressure.\n" +
+            "Explore. Select. Reflect.\n" +
             "Welcome to OptiMind.";
     }
 }
