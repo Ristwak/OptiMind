@@ -34,11 +34,10 @@ public class MCQLevelManager : MonoBehaviour
 {
     [Header("UI Elements")]
     public TextMeshProUGUI questionText;
-    public TextMeshProUGUI feedbackText;
-    public TextMeshProUGUI questionCounter;
+    // public TextMeshProUGUI feedbackText;
+    // public TextMeshProUGUI questionCounter;
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI timerText;
-    public Button submitButton;
 
     [Header("Options Container")]
     public GameObject optionButtonPrefab;
@@ -58,8 +57,6 @@ public class MCQLevelManager : MonoBehaviour
 
     void Start()
     {
-        submitButton.onClick.AddListener(OnSubmitAnswer);
-        submitButton.interactable = false;
         score = 0;
         StartCoroutine(LoadQuestionsFromStreamingAssets());
     }
@@ -123,14 +120,13 @@ public class MCQLevelManager : MonoBehaviour
         answered = false;
         playerChoices.Clear();
         optionButtons.Clear();
-        submitButton.interactable = false;
 
         // Update score and counter
         scoreText.text = $"Score: {score}";
         var q = questions[currentIndex];
         questionText.text = q.prompt;
-        feedbackText.text = string.Empty;
-        questionCounter.text = $"Q {currentIndex + 1} / {questions.Count}";
+        // feedbackText.text = string.Empty;
+        // questionCounter.text = $"Q {currentIndex + 1} / {questions.Count}";
         timerText.text = Mathf.CeilToInt(timePerQuestion).ToString();
 
         ClearOptions();
@@ -147,7 +143,7 @@ public class MCQLevelManager : MonoBehaviour
             optionButtons[opt] = button;
         }
 
-        // Start question timer
+        // Start timer
         if (timerCoroutine != null) StopCoroutine(timerCoroutine);
         timerCoroutine = StartCoroutine(QuestionTimer());
     }
@@ -161,11 +157,17 @@ public class MCQLevelManager : MonoBehaviour
             timerText.text = Mathf.CeilToInt(remaining).ToString();
             yield return null;
         }
-        if (!answered) ProcessAnswer();
+
+        if (!answered)
+        {
+            ProcessAnswer(); // auto-submit
+        }
     }
 
     void OnOptionToggled(string option, Button button)
     {
+        if (answered) return;
+
         if (playerChoices.Contains(option))
         {
             playerChoices.Remove(option);
@@ -174,34 +176,24 @@ public class MCQLevelManager : MonoBehaviour
         else
         {
             playerChoices.Add(option);
-            button.image.color = Color.green;
+            button.image.color = Color.black;
         }
-        submitButton.interactable = playerChoices.Count > 0;
-    }
-
-    void OnSubmitAnswer()
-    {
-        if (timerCoroutine != null) StopCoroutine(timerCoroutine);
-        ProcessAnswer();
     }
 
     void ProcessAnswer()
     {
         answered = true;
-        // Disable further input
+
         foreach (var btn in optionButtons.Values)
             btn.interactable = false;
-        submitButton.interactable = false;
 
-        // Evaluate
         var correctList = questions[currentIndex].correct;
         bool isCorrect = AreSelectionsEqual(playerChoices, correctList);
         if (isCorrect) score += scorePoints;
 
-        feedbackText.text = isCorrect ? "✅ Correct!" : "❌ Wrong.";
+        // feedbackText.text = isCorrect ? "✅ Correct!" : "❌ Wrong.";
         scoreText.text = $"Score: {score}";
 
-        // Advance after delay
         StartCoroutine(AutoAdvance());
     }
 
