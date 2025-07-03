@@ -2,7 +2,7 @@ using UnityEngine;
 using TMPro;
 
 /// <summary>
-/// Populates the About panel with detailed game info for OptiMind (multi-correct logic game).
+/// Populates the About panel with det,vkbZled game info for OptiMind (multi-correct logic game).
 /// </summary>
 public class AboutGameManager : MonoBehaviour
 {
@@ -19,31 +19,31 @@ public class AboutGameManager : MonoBehaviour
         }
 
         aboutText.text =
-            "<b>About OptiMind</b>\n" +
-            "OptiMind is a multi-select reasoning challenge designed to sharpen your conceptual understanding of AI, logic, and machine learning.\n\n" +
+            "<b>v‚fIVekbaM ds ckjs esa</b>\n" +
+            "v‚fIVekbaM ,d eYVh&flysDV jhtfuax pkSysat gS] ftls ,vkbZ] y‚ftd vkSj e'khu yfuZax dh vkidh voèkkj.kkRed le> dks rst djus ds fy, fMt+kbu fd;k x;k gSA\n\n" +
 
-            "<b>What’s the Game About?</b>\n" +
-            "Each level presents complex, real-world inspired questions with more than one correct answer.\n" +
-            "Your task: analyze, infer, and select all valid answers — not just the obvious one.\n\n" +
+            "<b>;g xse D;k gS\\</b>\n" +
+            "gj Lrj ij vkidks tfVy] okLrfod&thou ls çsfjr ç'u feysaxs ftuds ,d ls vfèkd lgh mÙkj gks ldrs gSaA\n" +
+            "vkidk dke: lHkh oSèk mÙkjksa dk fo'ys\"k.k djuk] mUgsa igpkuuk vkSj pquuk — flQZ Li\"V ugha] cfYd lHkh mi;qä fodYiA\n\n" +
 
-            "<b>Thinking Beyond A or B</b>\n" +
-            "OptiMind rewards clarity of thought, pattern recognition, and the ability to hold multiple possibilities in mind.\n" +
-            "It simulates the kind of multi-path decision-making required in real AI design and evaluation.\n\n" +
+            "<b>A ;k B ls vkxs dh lksp</b>\n" +
+            "v‚fIVekbaM mu yksxksa dks iqjL—r djrk gS tks Li\"V lksp] iSVuZ dh igpku vkSj ,d lkFk dbZ laHkkoukvksa dks le>us dh {kerk j[krs gSaA\n" +
+            ";g ,e ,yh çdkj dh cgq&iFk fu.kZ; {kerk dks n'kkZrk gS ftldh t:jr ,vkbZ fMt+kbu vkSj ewY;kadu esa gksrh gSA\n\n" +
 
-            "<b>What You'll Learn</b>\n" +
-            "• How to handle ambiguous and abstract problems\n" +
-            "• Where classical logic meets probabilistic reasoning\n" +
-            "• The challenge of choosing all valid answers — not just the best one\n\n" +
+            "<b>vki D;k lh[ksaxs</b>\n" +
+            "• vLi\"V vkSj vewrZ leL;kvksa ls dSls fuiVsa\n" +
+            "• tgk¡ ikj,vkbZfjd y‚ftd vkSj laHkkO;kRed rdZ ,d&nwljs ls feyrs gSa\n" +
+            "• dsoy lcls vPNk ugha] cfYd lHkh lgh mÙkjksa dks pquus dh pqukSrh\n\n" +
 
-            "<b>Designed for AI/ML Learners</b>\n" +
-            "Built for students and enthusiasts in AI, ML, and cognitive science, OptiMind helps you:\n" +
-            "• Strengthen logical foundations\n" +
-            "• Apply reasoning across multiple options\n" +
-            "• Spot false positives and eliminate distractors\n\n" +
+            "<b>,vkbZ@,e ,y Nk=ksa ds fy, fMt+kbu fd;k x;k</b>\n" +
+            ",vkbZ] ,e ,y vkSj d‚fXufVo lkbal ds Nk=ksa vkSj mRlkgh yksxksa ds fy, cuk;k x;k] v‚fIVekbaM vkidh enn djrk gS:\n" +
+            "• y‚ftdy QkmaMs'kUl dks etcwr cukuk\n" +
+            "• dbZ fodYiksa ds chp rdZ ykxw djuk\n" +
+            "• Q‚Yl i‚ftfVOl dh igpku djuk vkSj Hkzked fodYiksa dks gVkuk\n\n" +
 
-            "<b>Ready to Think Differently?</b>\n" +
-            "This isn’t guesswork — it’s insight under pressure.\n" +
-            "Explore. Select. Reflect.\n" +
-            "Welcome to OptiMind.";
+            "<b>D;k vki vyx lkspus dks rS;kj gSa\\</b>\n" +
+            ";g vuqeku ugha] cfYd ncko esa xgjh le> gSA\n" +
+            "tkapsaA pqusaA fopkj djsaA\n\n" +
+            "<b>v‚fIVekbaM esa vkidk Lokxr gSA<\b>";
     }
 }

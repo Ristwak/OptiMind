@@ -1,0 +1,151 @@
+[
+  {
+    "id": "Q1",
+    "prompt": "fuEufyf[kr esa ls dkSu lh fu;ferhdj.k rduhdsa e'khu yfuZax esa lkekU;r% mi;ksx dh tkrh gSa\\",
+    "options": [
+      ",y1 fu;ferhdj.k",
+      ",y2 fu;ferhdj.k",
+      "Mª‚ivkmV",
+      ",Mk&cwLV"
+    ],
+    "correct": [
+      ",y1 fu;ferhdj.k",
+      ",y2 fu;ferhdj.k",
+      "Mª‚ivkmV"
+    ]
+  },
+  {
+    "id": "Q2",
+    "prompt": "U;wjy usVoDlZ esa ç;qä lfØ;.k QaD'ku esa ls dkSu ls gSa\\",
+    "options": [
+      "jh,y;w",
+      "flXe‚bM",
+      "VSu,p",
+      ",Mk&cwLV"
+    ],
+    "correct": [
+      "jh,y;w",
+      "VSu,p",
+      "VSu,p"
+    ]
+  },
+  {
+    "id": "Q3",
+    "prompt": "fuEufyf[kr esa ls dkSu ls vulqijokbt+~M yfuZax ,Yxksfjn~e gSa\\",
+    "options": [
+      "ds&ehUl DyLVfjax",
+      "fçafliy daiksusaV ,ukfyfll",
+      "x‚fl;u feDlpj e‚MYl",
+      "yhfu;j fjxzs'ku"
+    ],
+    "correct": [
+      "ds&ehUl DyLVfjax",
+      "fçafliy daiksusaV ,ukfyfll",
+      "x‚fl;u feDlpj e‚MYl"
+    ]
+  },
+  {
+    "id": "Q4",
+    "prompt": "ckbujh DykflfQds'ku e‚My dk ewY;kadu djus ds fy, dkSu ls esfVªDl mi;qä gSa\\",
+    "options": [
+      "lVhdrk",
+      "çsfltu",
+      "fjd‚y",
+      ":V ehu LDos;MZ ,jj"
+    ],
+    "correct": [
+      "lVhdrk",
+      "çsfltu",
+      "fjd‚y"
+    ]
+  },
+  {
+    "id": "Q5",
+    "prompt": "fuEufyf[kr esa ls dkSu lh Mhi yfuZax vkfdZVsDpj gSa\\",
+    "options": [
+      "dUoksY;w'kuy U;wjy usVodZ",
+      "fjdjsaV U;wjy usVodZ",
+      "v‚Vks,UdksMj",
+      "fMlhtu Vªh"
+    ],
+    "correct": [
+      "dUoksY;w'kuy U;wjy usVodZ",
+      "fjdjsaV U;wjy usVodZ",
+      "v‚Vks,UdksMj"
+    ]
+  },
+  {
+    "id": "Q6",
+    "prompt": "dkSu ls vuqdwyu ,Yxksfjn~El vuqdwyh yfuZax jsV~l dk mi;ksx djrs gSa\\",
+    "options": [
+      "LVksdkfLVd xzsfM,aV fMlsaV",
+      "vkj,e,lç‚i",
+      ",Me",
+      "ds&fu;jLV usclZ"
+    ],
+    "correct": [
+      "vkj,e,lç‚i",
+      ",Me"
+    ]
+  },
+  {
+    "id": "Q7",
+    "prompt": "DykflfQds'ku dk;ksZa ds fy, lkekU;r% dkSu ls y‚l QaD'ku ç;qä gksrs gSa\\",
+    "options": [
+      "Ø‚l&,aVª‚ih y‚l",
+      "ehu LDos;MZ ,jj",
+      "fgat y‚l",
+      ";wfDyfM;u fMLVsal"
+    ],
+    "correct": [
+      "Ø‚l&,aVª‚ih y‚l",
+      "fgat y‚l"
+    ]
+  },
+  {
+    "id": "Q8",
+    "prompt": "U;wjy usVoDlZ esa vksojfQfVax dks jksdus ds fy, dkSu lh rduhdsa lgk;d gksrh gSa\\",
+    "options": [
+      "Mª‚ivkmV",
+      "cSp u‚eZykbts'ku",
+      "MsVk v‚XesaVs'ku",
+      "liksVZ osDVj e'khu"
+    ],
+    "correct": [
+      "Mª‚ivkmV",
+      "cSp u‚eZykbts'ku",
+      "MsVk v‚XesaVs'ku"
+    ]
+  },
+  {
+    "id": "Q9",
+    "prompt": "liksVZ osDVj e'khu esa fuEufyf[kr esa ls dkSu&dkSu ls duZy QaD'ku mi;ksx esa fy, tk ldrs gSa\\",
+    "options": [
+      "yhfu;j duZy",
+      "i‚yhuksfe;y duZy",
+      "vkjch,Q duZy",
+      "flXe‚bM duZsy"
+    ],
+    "correct": [
+      "yhfu;j duZy",
+      "i‚yhuksfe;y duZy",
+      "vkjch,Q duZy",
+      "flXe‚bM duZsy"
+    ]
+  },
+  {
+    "id": "Q10",
+    "prompt": "jhbUQkslZesaV yfuZax esa lkekU;r% fd, tkus okys dk;Z dkSu ls gSa\\",
+    "options": [
+      "uhfr vuqdwyu",
+      "ewY; Q+aD'ku dk ewY;kadu",
+      "best lsxesaVs'ku",
+      "ç{ksi iFk ;kstuk"
+    ],
+    "correct": [
+      "uhfr vuqdwyu",
+      "ewY; Q+aD'ku dk ewY;kadu",
+      "best lsxesaVs'ku"
+    ]
+  }
+]

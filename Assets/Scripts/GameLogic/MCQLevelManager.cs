@@ -34,8 +34,6 @@ public class MCQLevelManager : MonoBehaviour
 {
     [Header("UI Elements")]
     public TextMeshProUGUI questionText;
-    // public TextMeshProUGUI feedbackText;
-    // public TextMeshProUGUI questionCounter;
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI timerText;
 
@@ -46,6 +44,10 @@ public class MCQLevelManager : MonoBehaviour
     [Header("Game Settings")]
     public float timePerQuestion = 10f;
     public int scorePoints = 1;
+
+    [Header("Panels")]
+    public GameObject comingSoonPanel;
+    public GameObject exitPanel;
 
     private List<MCQQuestion> questions = new List<MCQQuestion>();
     private int currentIndex = 0;
@@ -58,12 +60,32 @@ public class MCQLevelManager : MonoBehaviour
     void Start()
     {
         score = 0;
+        comingSoonPanel.SetActive(false);
+        exitPanel.SetActive(false);
         StartCoroutine(LoadQuestionsFromStreamingAssets());
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (!exitPanel.activeSelf)
+                exitPanel.SetActive(true);
+        }
+
+        if (exitPanel.activeSelf)
+        {
+            Time.timeScale = 0f;
+        }
+        else
+        {
+            Time.timeScale = 1f;
+        }
     }
 
     IEnumerator LoadQuestionsFromStreamingAssets()
     {
-        string fileName = "Level01_AI_ML_MSQ_500_4opt.json";
+        string fileName = "Level01_AI_ML_MSQ_500_4opt_HindiPartial.json";
         string filePath = Path.Combine(Application.streamingAssetsPath, fileName);
         string json = "";
 
@@ -94,6 +116,7 @@ public class MCQLevelManager : MonoBehaviour
         if (loaded == null || loaded.Length == 0)
         {
             Debug.LogError("No questions found or invalid JSON.");
+            ShowComingSoon();
             yield break;
         }
 
@@ -115,18 +138,19 @@ public class MCQLevelManager : MonoBehaviour
 
     void DisplayQuestion()
     {
-        if (currentIndex >= questions.Count) return;
+        if (currentIndex >= questions.Count)
+        {
+            ShowComingSoon();
+            return;
+        }
 
         answered = false;
         playerChoices.Clear();
         optionButtons.Clear();
 
-        // Update score and counter
-        scoreText.text = $"Score: {score}";
+        scoreText.text = $"vad {score}";
         var q = questions[currentIndex];
         questionText.text = q.prompt;
-        // feedbackText.text = string.Empty;
-        // questionCounter.text = $"Q {currentIndex + 1} / {questions.Count}";
         timerText.text = Mathf.CeilToInt(timePerQuestion).ToString();
 
         ClearOptions();
@@ -143,7 +167,6 @@ public class MCQLevelManager : MonoBehaviour
             optionButtons[opt] = button;
         }
 
-        // Start timer
         if (timerCoroutine != null) StopCoroutine(timerCoroutine);
         timerCoroutine = StartCoroutine(QuestionTimer());
     }
@@ -191,9 +214,7 @@ public class MCQLevelManager : MonoBehaviour
         bool isCorrect = AreSelectionsEqual(playerChoices, correctList);
         if (isCorrect) score += scorePoints;
 
-        // feedbackText.text = isCorrect ? "✅ Correct!" : "❌ Wrong.";
-        scoreText.text = $"Score: {score}";
-
+        scoreText.text = $"vad {score}";
         StartCoroutine(AutoAdvance());
     }
 
@@ -208,18 +229,28 @@ public class MCQLevelManager : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
         currentIndex++;
-        if (currentIndex >= questions.Count)
-        {
-            UnityEngine.SceneManagement.SceneManager.LoadScene("HomeScene");
-        }
-        else
-        {
-            DisplayQuestion();
-        }
+        DisplayQuestion();
     }
 
     void ClearOptions()
     {
         foreach (Transform t in optionsContainer) Destroy(t.gameObject);
+    }
+
+    void ShowComingSoon()
+    {
+        comingSoonPanel.SetActive(true);
+    }
+
+    // Called from exit panel buttons
+    public void OnExitYes()
+    {
+        Application.Quit();
+        Debug.Log("Game closed.");
+    }
+
+    public void OnExitNo()
+    {
+        exitPanel.SetActive(false);
     }
 }
