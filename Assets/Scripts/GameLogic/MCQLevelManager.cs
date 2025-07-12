@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.IO;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class MCQQuestion
@@ -251,6 +252,7 @@ public class MCQLevelManager : MonoBehaviour
 
     public void OnExitNo()
     {
-        exitPanel.SetActive(false);
+        // exitPanel.SetActive(false);
+        SceneManager.LoadScene("MenuScene");
     }
 }

@@ -45,8 +45,8 @@ public class GameManager : MonoBehaviour
     public void OnExitNo()
     {
         exitPanel.SetActive(false);
-        if(isComingSoonActive)
-            comingSoonPanel.SetActive(true);
+        if (isComingSoonActive)
+            SceneManager.LoadScene("MenuScene");
         else
             comingSoonPanel.SetActive(false);
         Time.timeScale = 1f; // Resume game if exit panel is closed

@@ -25,8 +25,6 @@ public class AboutGameManager : MonoBehaviour
             "<b>;g xse D;k gS\\</b>\n" +
             "gj Lrj ij vkidks tfVy] okLrfod&thou ls çsfjr ç'u feysaxs ftuds ,d ls vfèkd lgh mÙkj gks ldrs gSaA\n" +
             "vkidk dke: lHkh oSèk mÙkjksa dk fo'ys\"k.k djuk] mUgsa igpkuuk vkSj pquuk — flQZ Li\"V ugha] cfYd lHkh mi;qä fodYiA\n\n" +
-
-            "<b>A ;k B ls vkxs dh lksp</b>\n" +
             "v‚fIVekbaM mu yksxksa dks iqjL—r djrk gS tks Li\"V lksp] iSVuZ dh igpku vkSj ,d lkFk dbZ laHkkoukvksa dks le>us dh {kerk j[krs gSaA\n" +
             ";g ,e ,yh çdkj dh cgq&iFk fu.kZ; {kerk dks n'kkZrk gS ftldh t:jr ,vkbZ fMt+kbu vkSj ewY;kadu esa gksrh gSA\n\n" +
 
@@ -44,6 +42,6 @@ public class AboutGameManager : MonoBehaviour
             "<b>D;k vki vyx lkspus dks rS;kj gSa\\</b>\n" +
             ";g vuqeku ugha] cfYd ncko esa xgjh le> gSA\n" +
             "tkapsaA pqusaA fopkj djsaA\n\n" +
-            "<b>v‚fIVekbaM esa vkidk Lokxr gSA<\b>";
+            "<b>v‚fIVekbaM esa vkidk Lokxr gSA</b>";
     }
 }
